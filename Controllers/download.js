@@ -65,7 +65,7 @@ const downloadSongController = async (req, res) => {
 
 
 
-    const fileBuffer = await downloadMp3(response.link);
+    //const fileBuffer = await downloadMp3(response.link);
     console.log("File buffer", fileBuffer);
     const fileName = `${response.title.replace(/ /g, '_')}.mp3`;
     console.log("File name", fileName);
