@@ -46,7 +46,7 @@ const downloadSongController = async (req, res) => {
     };
 
     const response = await fetchData(downloadOptions);
-
+    console.log("Response from download", response);
     console.log("Debuging");
 
     // const response={

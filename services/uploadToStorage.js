@@ -19,7 +19,9 @@ const uploadToStorage = async (fileName, fileStream) => {
     console.log("i am in uploadToStorage");
   const sanitizedFileName = sanitizeFileName(fileName);
 
+
   const fileBuffer = await streamToBuffer(fileStream);
+  console.log("File buffer", fileBuffer);
 
   const { error: uploadError } = await supabase.storage
     .from('songs')
