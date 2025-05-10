@@ -134,7 +134,7 @@ const downloadSongController = async (req, res) => {
 
   } catch (err) {
     console.error(err.message);
-    return res.status(500).json({ error: 'Failed to download song.' });
+    return res.status(500).json(err.message );
   }
 };
 
