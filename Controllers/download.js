@@ -48,25 +48,25 @@ const downloadSongController = async (req, res) => {
       }
     };
 
-    // const response = await fetchData(downloadOptions);
-    // console.log("Response from download", response);
-    // console.log("Debuging");
+    const response = await fetchData(downloadOptions);
+    console.log("Response from download", response);
+    console.log("Debuging");
 
-    const response={
-      link: 'https://theta.123tokyo.xyz/get.php/4/72/XO8wew38VM8.mp3?n=MILLIONAIRE%20SONG%20%28Full%20Video%29_%20%40YoYoHoneySingh%20_%20GLORY%20_%20BHUSHAN%20KUMAR&uT=R&uN=aGFtemFraGFuNjA%3D&h=fBWS7RLJ0M1Xx-s7_z-wqQ&s=1746918572&uT=R&uN=aGFtemFraGFuNjA%3D',
-      title: 'MILLIONAIRE_SONG_(Full_Video):_@YoYoHoneySingh__|_GLORY_|_BHUSHAN_KUMAR.mp3',
-      filesize: 3375628,
-      progress: 100,
-      duration: 204.06857221242,
-      status: 'ok',
-      msg: 'success'
-    }
+    // const response={
+    //   link: 'https://theta.123tokyo.xyz/get.php/4/72/XO8wew38VM8.mp3?n=MILLIONAIRE%20SONG%20%28Full%20Video%29_%20%40YoYoHoneySingh%20_%20GLORY%20_%20BHUSHAN%20KUMAR&uT=R&uN=aGFtemFraGFuNjA%3D&h=fBWS7RLJ0M1Xx-s7_z-wqQ&s=1746918572&uT=R&uN=aGFtemFraGFuNjA%3D',
+    //   title: 'MILLIONAIRE_SONG_(Full_Video):_@YoYoHoneySingh__|_GLORY_|_BHUSHAN_KUMAR.mp3',
+    //   filesize: 3375628,
+    //   progress: 100,
+    //   duration: 204.06857221242,
+    //   status: 'ok',
+    //   msg: 'success'
+    // }
 
 
 
 
     //const fileBuffer = await downloadMp3(response.link);
-    console.log("File buffer", fileBuffer);
+    //console.log("File buffer", fileBuffer);
     const fileName = `${response.title.replace(/ /g, '_')}.mp3`;
     console.log("File name", fileName);
     //console.log("File buffer", fileBuffer);
