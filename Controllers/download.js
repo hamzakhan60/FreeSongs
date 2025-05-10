@@ -78,8 +78,8 @@ const downloadSongController = async (req, res) => {
     // console.log("Debuging");
 
     const response={
-      link: 'https://theta.123tokyo.xyz/get.php/3/ec/YStwB1U8H9E.mp3?n=Beqadra%20_%20Nehaal%20Naseem%20_%20Official%20Music%20Video%20_%20Rythmish&uT=R&uN=aGFtemFraGFuNjA%3D&h=-blCC2Slwq2cZc73gp3mgw&s=1746919503&uT=R&uN=aGFtemFraGFuNjA%3D',
-      title: 'Beqadra | Nehaal Naseem | Official Music Video | Rythmish',
+      link: 'https://zeta.123tokyo.xyz/get.php/f/ac/QxddU3sjVRY.mp3?n=AUR%20-%20SHIKAYAT%20-%20Raffey%20-%20Usama%20-%20Ahad%20%28Official%20Music%20Video%29&uT=R&uN=aGFtemFraGFuNjA%3D&h=_3DotjCMlLUTTdjv1mVR2Q&s=1746921011&uT=R&uN=aGFtemFraGFuNjA%3D',
+      title: 'AUR - SHIKAYAT - Raffey - Usama - Ahad (Official Music Video)',
       filesize: 3375628,
       progress: 100,
       duration: 204.06857221242,
