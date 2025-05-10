@@ -2,11 +2,18 @@ const express = require('express');
 const useDownload= require('./Routers/download');
 const fetch_list= require('./Routers/fetch_list');
 const uploadSong= require('./Routers/uploadSong');
+const bodyParser = require('body-parser');
 const app = express();
 const PORT = 3000;
 
 // Middleware
 app.use(express.json());
+
+
+app.use(bodyParser.json({limit: '50mb', extended: true}));
+app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
+app.use(bodyParser.text({ limit: '200mb' }));
+
 
 // Routes
 app.use('/download',useDownload);
