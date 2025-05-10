@@ -18,15 +18,30 @@ const fetchData = async (options) => {
 // This function fetches the file from the given URL and passes the stream to a custom upload function
 const streamToStorage = async (url, uploadStreamFunc) => {
   try {
-    const response = await axios.get(url, {
-      responseType: 'stream',
-      maxRedirects: 5, // follow redirects
+    // Use a timeout and more resilient options
+    const response = await axios({
+      method: 'get',
+      url: url,
+      responseType: 'arraybuffer', // Use arraybuffer instead of stream
+      timeout: 30000, // 30 second timeout
+      maxRedirects: 5,
+      maxContentLength: 50 * 1024 * 1024, // 50MB max size
+      headers: {
+        'Accept': 'audio/mpeg,audio/*,*/*',
+        'User-Agent': 'Mozilla/5.0 (compatible; YourApp/1.0)'
+      }
     });
-
-    return await uploadStreamFunc(response.data);
+    
+    // Convert directly to buffer instead of using stream
+    return await uploadStreamFunc(Buffer.from(response.data));
+    
   } catch (err) {
-    console.error('Axios stream error:', err.message);
-    throw new Error('Stream failed on Vercel');
+    console.error('Axios download error:', err.message);
+    if (err.response) {
+      console.error('Response status:', err.response.status);
+      console.error('Response headers:', err.response.headers);
+    }
+    throw new Error(`Stream failed on Vercel: ${err.message}`);
   }
 };
 
@@ -53,8 +68,8 @@ const downloadSongController = async (req, res) => {
     console.log("Debuging");
 
     // const response={
-    //   link: 'https://theta.123tokyo.xyz/get.php/4/72/XO8wew38VM8.mp3?n=MILLIONAIRE%20SONG%20%28Full%20Video%29_%20%40YoYoHoneySingh%20_%20GLORY%20_%20BHUSHAN%20KUMAR&uT=R&uN=aGFtemFraGFuNjA%3D&h=fBWS7RLJ0M1Xx-s7_z-wqQ&s=1746918572&uT=R&uN=aGFtemFraGFuNjA%3D',
-    //   title: 'MILLIONAIRE_SONG_(Full_Video):_@YoYoHoneySingh__|_GLORY_|_BHUSHAN_KUMAR.mp3',
+    //   link: 'https://theta.123tokyo.xyz/get.php/3/ec/YStwB1U8H9E.mp3?n=Beqadra%20_%20Nehaal%20Naseem%20_%20Official%20Music%20Video%20_%20Rythmish&uT=R&uN=aGFtemFraGFuNjA%3D&h=-blCC2Slwq2cZc73gp3mgw&s=1746919503&uT=R&uN=aGFtemFraGFuNjA%3D',
+    //   title: 'Beqadra | Nehaal Naseem | Official Music Video | Rythmish',
     //   filesize: 3375628,
     //   progress: 100,
     //   duration: 204.06857221242,

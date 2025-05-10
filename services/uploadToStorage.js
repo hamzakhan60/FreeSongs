@@ -1,28 +1,42 @@
 const supabase = require('../supabase/client.js');
 
-const streamToBuffer = async (stream) => {
-  return new Promise((resolve, reject) => {
-    const chunks = [];
-    stream.on('data', (chunk) => chunks.push(chunk));
-    stream.on('end', () => resolve(Buffer.concat(chunks)));
-    stream.on('error', reject);
-  });
-};
-
 const sanitizeFileName = (fileName) => {
   return fileName
     .replace(/[^a-zA-Z0-9.-]/g, '_')
     .toLowerCase();
 };
 
-const uploadToStorage = async (fileName, fileStream) => {
-    console.log("i am in uploadToStorage");
+const uploadToStorage = async (fileName, fileDataOrStream) => {
+  console.log("Starting uploadToStorage");
   const sanitizedFileName = sanitizeFileName(fileName);
 
+  let fileBuffer;
+  
+  // Handle both buffer and stream inputs
+  if (Buffer.isBuffer(fileDataOrStream)) {
+    fileBuffer = fileDataOrStream;
+    console.log("Received buffer directly");
+  } else {
+    // It's a stream, convert to buffer
+    fileBuffer = await streamToBuffer(fileDataOrStream);
+    console.log("Converted stream to buffer");
+  }
+  
+  console.log("File buffer size:", fileBuffer.length);
+  
+  // Check if buffer is valid
+  if (!fileBuffer || fileBuffer.length === 0) {
+    throw new Error("Empty file buffer received");
+  }
 
-  const fileBuffer = await streamToBuffer(fileStream);
-  console.log("File buffer", fileBuffer);
+  // Validate that it looks like an MP3 file (simple check)
+  if (fileBuffer.length > 2 && 
+     (fileBuffer[0] !== 0x49 || fileBuffer[1] !== 0x44) && // ID3v2
+     (fileBuffer[0] !== 0xFF || (fileBuffer[1] & 0xE0) !== 0xE0)) { // MPEG sync
+    console.warn("Warning: File doesn't appear to have MP3 header markers");
+  }
 
+  console.log("Starting upload to Supabase");
   const { error: uploadError } = await supabase.storage
     .from('songs')
     .upload(sanitizedFileName, fileBuffer, {
@@ -43,8 +57,10 @@ const uploadToStorage = async (fileName, fileStream) => {
     console.error('Public URL Error:', publicUrlError);
     throw new Error(`Failed to get public URL: ${publicUrlError.message}`);
   }
-  console.log("finished uploadToStorage");
+  
+  console.log("Finished uploadToStorage successfully");
   return data.publicUrl;
 };
+
 
 module.exports = uploadToStorage;
