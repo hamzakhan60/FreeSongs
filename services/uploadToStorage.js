@@ -16,6 +16,7 @@ const sanitizeFileName = (fileName) => {
 };
 
 const uploadToStorage = async (fileName, fileStream) => {
+    console.log("i am in uploadToStorage");
   const sanitizedFileName = sanitizeFileName(fileName);
 
   const fileBuffer = await streamToBuffer(fileStream);
@@ -40,7 +41,7 @@ const uploadToStorage = async (fileName, fileStream) => {
     console.error('Public URL Error:', publicUrlError);
     throw new Error(`Failed to get public URL: ${publicUrlError.message}`);
   }
-
+  console.log("finished uploadToStorage");
   return data.publicUrl;
 };
 

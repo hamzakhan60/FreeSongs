@@ -45,27 +45,27 @@ const downloadSongController = async (req, res) => {
       }
     };
 
-    const response = await fetchData(downloadOptions);
+    //const response = await fetchData(downloadOptions);
 
     console.log("Debuging");
 
-    // const response={
-    //   link: 'https://epsilon.123tokyo.xyz/get.php/0/49/OhLPsjScQCc.mp3?n=Lady%20Gaga%2C%20Bruno%20Mars%20-%20Die%20With%20A%20Smile%20%28Official%20Music%20Video%29&uT=R&uN=aGFtemFraGFuNjA%3D&h=vNUy_lpCksjf-W5ByfFdRw&s=1746915973&uT=R&uN=aGFtemFraGFuNjA%3D',
-    //   title: 'Lady Gaga, Bruno Mars - Die With A Smile (Official Music Video)',
-    //   filesize: 3375628,
-    //   progress: 100,
-    //   duration: 204.06857221242,
-    //   status: 'ok',
-    //   msg: 'success'
-    // }
+    const response={
+      link: 'https://epsilon.123tokyo.xyz/get.php/0/49/OhLPsjScQCc.mp3?n=Lady%20Gaga%2C%20Bruno%20Mars%20-%20Die%20With%20A%20Smile%20%28Official%20Music%20Video%29&uT=R&uN=aGFtemFraGFuNjA%3D&h=vNUy_lpCksjf-W5ByfFdRw&s=1746915973&uT=R&uN=aGFtemFraGFuNjA%3D',
+      title: 'Lady Gaga, Bruno Mars - Die With A Smile (Official Music Video)',
+      filesize: 3375628,
+      progress: 100,
+      duration: 204.06857221242,
+      status: 'ok',
+      msg: 'success'
+    }
 
 
 
 
-    const fileBuffer = await downloadMp3(response.link);
+    //const fileBuffer = await downloadMp3(response.link);
     const fileName = `${response.title.replace(/ /g, '_')}.mp3`;
     console.log("File name", fileName);
-    console.log("File buffer", fileBuffer);
+    //console.log("File buffer", fileBuffer);
     const publicUrl = await streamToStorage(response.link, (readStream) =>
       uploadToStorage(fileName, readStream)
     );
