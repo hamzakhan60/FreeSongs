@@ -18,33 +18,43 @@ const fetchData = async (options) => {
 // This function fetches the file from the given URL and passes the stream to a custom upload function
 const streamToStorage = async (url, uploadStreamFunc) => {
   try {
-    // Use a timeout and more resilient options
+    console.log(`Starting download from: ${url}`);
+
+    // Use more browser-like headers to prevent server rejection
     const response = await axios({
       method: 'get',
       url: url,
-      responseType: 'arraybuffer', // Use arraybuffer instead of stream
-      timeout: 30000, // 30 second timeout
-      maxRedirects: 5,
-      maxContentLength: 50 * 1024 * 1024, // 50MB max size
+      responseType: 'arraybuffer',
+      timeout: 60000, // Increase timeout to 60 seconds
+      maxRedirects: 10, // Allow more redirects
+      maxContentLength: 100 * 1024 * 1024, // 100MB max size
       headers: {
-        'Accept': 'audio/mpeg,audio/*,*/*',
-        'User-Agent': 'Mozilla/5.0 (compatible; YourApp/1.0)'
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36',
+        'Accept': 'audio/webm,audio/ogg,audio/wav,audio/*;q=0.9,application/ogg;q=0.7,video/*;q=0.6,*/*;q=0.5',
+        'Accept-Language': 'en-US,en;q=0.5',
+        'Referer': 'https://youtube.com/',  // Some servers check the referer
+        'DNT': '1',
+        'Connection': 'keep-alive',
+        'Sec-Fetch-Dest': 'document',
+        'Pragma': 'no-cache',
+        'Cache-Control': 'no-cache'
       }
     });
-    
-    // Convert directly to buffer instead of using stream
+
+    console.log(`Download completed. Content length: ${response.data.length} bytes`);
+
+    // Convert directly to buffer and upload
     return await uploadStreamFunc(Buffer.from(response.data));
-    
+
   } catch (err) {
     console.error('Axios download error:', err.message);
     if (err.response) {
       console.error('Response status:', err.response.status);
-      console.error('Response headers:', err.response.headers);
+      console.error('Response headers:', JSON.stringify(err.response.headers));
     }
-    throw new Error(`Stream failed on Vercel: ${err.message}`);
+    throw new Error(`Stream failed: ${err.message}`);
   }
 };
-
 const downloadSongController = async (req, res) => {
   try {
     const url = req.body.url;
@@ -63,19 +73,19 @@ const downloadSongController = async (req, res) => {
       }
     };
 
-    const response = await fetchData(downloadOptions);
-    console.log("Response from download", response);
-    console.log("Debuging");
+    // const response = await fetchData(downloadOptions);
+    // console.log("Response from download", response);
+    // console.log("Debuging");
 
-    // const response={
-    //   link: 'https://theta.123tokyo.xyz/get.php/3/ec/YStwB1U8H9E.mp3?n=Beqadra%20_%20Nehaal%20Naseem%20_%20Official%20Music%20Video%20_%20Rythmish&uT=R&uN=aGFtemFraGFuNjA%3D&h=-blCC2Slwq2cZc73gp3mgw&s=1746919503&uT=R&uN=aGFtemFraGFuNjA%3D',
-    //   title: 'Beqadra | Nehaal Naseem | Official Music Video | Rythmish',
-    //   filesize: 3375628,
-    //   progress: 100,
-    //   duration: 204.06857221242,
-    //   status: 'ok',
-    //   msg: 'success'
-    // }
+    const response={
+      link: 'https://theta.123tokyo.xyz/get.php/3/ec/YStwB1U8H9E.mp3?n=Beqadra%20_%20Nehaal%20Naseem%20_%20Official%20Music%20Video%20_%20Rythmish&uT=R&uN=aGFtemFraGFuNjA%3D&h=-blCC2Slwq2cZc73gp3mgw&s=1746919503&uT=R&uN=aGFtemFraGFuNjA%3D',
+      title: 'Beqadra | Nehaal Naseem | Official Music Video | Rythmish',
+      filesize: 3375628,
+      progress: 100,
+      duration: 204.06857221242,
+      status: 'ok',
+      msg: 'success'
+    }
 
 
 
