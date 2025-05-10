@@ -139,7 +139,7 @@ const downloadSongController = async (req, res) => {
       console.log('Trying alternative URL encoding...');
 
       // Replace spaces with %20 and try again with the original URL
-      const encodedUrl = mp3Url.replace(/ /g, '%20');
+      const encodedUrl = response.link.replace(/ /g, '%20');
 
       publicUrl = await streamToStorage(encodedUrl, (dataStream) => {
         return uploadToStorage(finalFileName, dataStream);
