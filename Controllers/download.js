@@ -83,7 +83,7 @@ const downloadSongController = async (req, res) => {
       }
     };
     
-    // const response = await fetchData(downloadOptions);
+    const response = await fetchData(downloadOptions);
     // console.log('Response from conversion API:', response);
     // const id = response?.id;
 
@@ -108,15 +108,15 @@ const downloadSongController = async (req, res) => {
     //   callbackUrl: null
     // }
     console.log("Debuging");
-    const response={
-      link: 'https://epsilon.123tokyo.xyz/get.php/a/8c/luFGY9atHqo.mp3?n=12%20SAAL%20-%20BILAL%20SAEED%20-%20OFFICIAL%20VIDEO%20HD&uT=R&uN=aGFtemFraGFuNjA%3D&h=6dV2uU3xvyEwpCov6L9Rkw&s=1746758668&uT=R&uN=aGFtemFraGFuNjA%3D',
-      title: '12 SAAL - BILAL SAEED - OFFICIAL VIDEO HD',
-      filesize: 3375628,
-      progress: 100,
-      duration: 204.06857221242,
-      status: 'ok',
-      msg: 'success'
-    }
+    // const response={
+    //   link: 'https://epsilon.123tokyo.xyz/get.php/a/8c/luFGY9atHqo.mp3?n=12%20SAAL%20-%20BILAL%20SAEED%20-%20OFFICIAL%20VIDEO%20HD&uT=R&uN=aGFtemFraGFuNjA%3D&h=6dV2uU3xvyEwpCov6L9Rkw&s=1746758668&uT=R&uN=aGFtemFraGFuNjA%3D',
+    //   title: '12 SAAL - BILAL SAEED - OFFICIAL VIDEO HD',
+    //   filesize: 3375628,
+    //   progress: 100,
+    //   duration: 204.06857221242,
+    //   status: 'ok',
+    //   msg: 'success'
+    // }
     
     
       
