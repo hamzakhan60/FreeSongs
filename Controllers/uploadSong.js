@@ -4,10 +4,7 @@ const uploadToStorage = require('../services/uploadToStorage');
 const uploadSong = async (req, res) => {
  try
   {
-    const { title, fileData } = req.body;
-    const fileBuffer = Buffer.from(fileData, 'base64');
-    const fileName = `${title.replace(/ /g, '_')}.mp3`;
-    publicUrl=uploadToStorage(fileName, fileBuffer)
+    const { fileName, publicUrl } = req.body;
     result = await insertSong(fileName, publicUrl);
     console.log("Result", result);
     if (!result) {
